@@ -224,10 +224,13 @@
   }
   .timeline-item {
     position: relative; margin-bottom: 3.5rem;
-    opacity: 0; transform: translateX(-20px);
+    opacity: 1; transform: translateX(0);
     transition: all 0.5s;
   }
-  .timeline-item.visible { opacity: 1; transform: translateX(0); }
+  .timeline-item.animate {
+    opacity: 0; transform: translateX(-20px);
+  }
+  .timeline-item.animate.visible { opacity: 1; transform: translateX(0); }
   .timeline-dot {
     position: absolute; left: -2.35rem; top: 0.4rem;
     width: 12px; height: 12px; border-radius: 50%;
@@ -378,10 +381,13 @@
 
   /* ── SCROLL ANIMATIONS ── */
   .fade-in {
-    opacity: 0; transform: translateY(30px);
+    opacity: 1; transform: translateY(0);
     transition: opacity 0.6s ease, transform 0.6s ease;
   }
-  .fade-in.visible { opacity: 1; transform: translateY(0); }
+  .fade-in.animate {
+    opacity: 0; transform: translateY(30px);
+  }
+  .fade-in.animate.visible { opacity: 1; transform: translateY(0); }
 
   /* ── FLOATING ORBS ── */
   .orb {
@@ -644,7 +650,11 @@
 </footer>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-  // Scroll animations
+  // Add animate class first, then observe
+  document.querySelectorAll('.fade-in, .timeline-item').forEach(el => {
+    el.classList.add('animate');
+  });
+
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
